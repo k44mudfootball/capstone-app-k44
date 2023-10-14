@@ -19,6 +19,9 @@ docs/_build/
 __pycache__
 .env_file
 setup.sh
+db_data.sh
+db_data.sql
+run_db_clear.sh
 
 # Coverage reports
 htmlcov/
