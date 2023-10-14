@@ -25,19 +25,23 @@ def setup_db(app, database_path=database_path):
 Person
 Have title and release year
 '''
-class Person(db.Model):  
-  __tablename__ = 'People'
+class Actor(db.Model):  
+  __tablename__ = 'actor'
 
   id = Column(db.Integer, primary_key=True)
-  name = Column(String)
-  catchphrase = Column(String)
+  name = Column(db.String(120), nullable=False)
+  gender = Column(db.String(120))
+  age = Column(db.Integer)
 
-  def __init__(self, name, catchphrase=""):
-    self.name = name
-    self.catchphrase = catchphrase
+  def __repr__(self):
+      return '<actor {}>'.format(self.name)
+  
+class Movie(db.Model):  
+  __tablename__ = 'movie'
 
-  def format(self):
-    return {
-      'id': self.id,
-      'name': self.name,
-      'catchphrase': self.catchphrase}
+  id = Column(db.Integer, primary_key=True)
+  title = Column(db.String(120), nullable=False)
+  release_date = Column(db.DateTime)
+
+  def __repr__(self):
+      return '<actor {}>'.format(self.name)
