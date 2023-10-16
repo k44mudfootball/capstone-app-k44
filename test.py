@@ -3,7 +3,7 @@ import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
 
-import app
+from app import create_app
 from models import setup_db, Actor, Movie
 #from dotenv import load_dotenv
 
@@ -21,7 +21,7 @@ class CastingTestCase(unittest.TestCase):
         db_host=os.getenv("DB_HOST")
         """
 
-        self.app = app.create_app()
+        self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "postgres_test"
         #self.database_path = 'postgresql://{}:{}@{}/{}'.format(db_username, db_password, db_host, self.database_name)
