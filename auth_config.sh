@@ -1,0 +1,3 @@
+export AUTH0_DOMAIN='capstone-casting-k44.us.auth0.com'
+export CLIENT_ID='TbPpP5iVka2qfZ6YiYgbOh3oWqw27DZC'
+export JWT_SIGNING_SECRET='FtUQNT3aG_7MPPtGHlQ-IS2Tms_Pww0WriyNw6FtqpMyLkyTJV3t6Sgl8VK1ltax'
