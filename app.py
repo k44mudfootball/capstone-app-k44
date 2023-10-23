@@ -175,37 +175,37 @@ def create_app(test_config=None):
             abort(422)
 
     # Update movie details
-    @app.route("/movies/<movie_id>", methods=["PATCH"])
+    @app.route("/movies/<int:movie_id>", methods=["PATCH"])
     @requires_auth('patch:movies')
     def update_movie(payload, movie_id):
         #Get body from Json
         body = request.get_json()
 
-        try:
-            #Find the actor by actor id
-            movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
-            if movie is None:
-                abort(404)
+        #try:
+        #Find the actor by actor id
+        movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+        if movie is None:
+            abort(404)
 
-            #Update title if included
-            if "title" in body:
-                movie.title = body.get("title")
-            
-            #Update release date if included
-            if "release_date" in body:
-                movie.release_date = body.get("release_date")
+        #Update title if included
+        if "title" in body:
+            movie.title = body.get("title")
+        
+        #Update release date if included
+        if "release_date" in body:
+            movie.release_date = body.get("release_date")
 
-            #Apply to the DB
-            movie.update()
+        #Apply to the DB
+        movie.update()
 
-            return jsonify(
-                {
-                    "success": True,
-                }
-            )
+        return jsonify(
+            {
+                "success": True,
+            }
+        )
 
-        except:
-            abort(400)
+        #except:
+        #    abort(400)
 
     #-----------  ERROR HANDLERS  --------------
     """
