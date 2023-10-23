@@ -5,7 +5,9 @@
 For the FSND capstone project, I decided to go with the default Casting Agency specification. This app allows company executives to manage Actors and Movies with Role Based Access Control (RBAC) 
 
 ### Accessing the App
-The app is hosted and automatically deployed by Render (render.com) upon code changes in the Github repository.  There is no front end associated with this project - backend only.  See API Documentation section to access the hosted version of the app.
+The app is hosted and automatically deployed by Render (render.com) upon code changes in the Github repository.  Note that because this is a free version of Render, after periods of inactivity, there is some ramp up time for the servers (<10 seconds) when the endpoint is first hit.  This is normal! 
+
+There is no front end associated with this project - backend only.  See API Documentation section to access the hosted version of the app.
 
 ### Local run instructions
 If you need to run locally, create a virtual environment with python 3.7 and pip install the dependencies in requirements.txt.  Run the run_db_clear.sh script which drops any existing DB, creates a new one, sets the environment variables in 'setup.sh' and starts the app.
@@ -42,7 +44,7 @@ The code is stored on Github in the https://github.com/k44mudfootball/capstone-a
 The URL of the hosted app is https://render-deployment-example-mtst.onrender.com/
 
 ## Authentication
-Authentication for the app is 3rd party managed by Auth0. Because there is no frontend to the app, access is through Machine-to-Machine REST requests. The app uses RBAC with three separate roles defined: Executive Producer, Casting Director, Casting Assistant.  Just prior to submital of the project, a JWT was generated for a user that has each of these roles, which has been put in `JWTs.txt`. In the endpoints below, replace {token} with one of these tokens. Note that the JWT tokens are valid for only 24 hours for new ones will need to be generated if a re-submittal is needed.
+Authentication for the app is 3rd party managed by Auth0. Because there is no frontend to the app, access is through Machine-to-Machine REST requests. The app uses RBAC with three separate roles defined: Executive Producer, Casting Director, Casting Assistant.  Just prior to submital of the project, a JWT was generated for a user that has each of these roles, which has been put in `JWTs.txt`. In the endpoints below, replace {token} with one of these tokens. Note that the JWT tokens are valid for only 24 hours so new ones will need to be generated if a re-submittal of the project is needed.
 
 ## Endpoints
 
@@ -50,7 +52,7 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
 - General: Returns the list of actors
 - Permitted roles: Executive Producer, Casting Director, Casting Assistant
 
-- `curl https://render-deployment-example-mtst.onrender.com/actors -H "Accept: application/json" -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/actors -H "Authorization: Bearer {token}"`
 
 ``` {
   "success": true,
@@ -59,25 +61,25 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
       "id": 1,
       "name": "Will Smith",
       "gender": "Male",
-      "age": 45,
+      "age": 45
     },
     {
       "id": 2,
       "name": "Bill Murray",
       "gender": "Male",
-      "age": 67,
+      "age": 67
     },
     {
       "id": 3,
       "name": "Jennifer Laurence",
       "gender": "Female",
-      "age": 35,
+      "age": 35
     },
     {
       "id": 4,
       "name": "Meryl Streep",
       "gender": "Female",
-      "age": 80,
+      "age": 80
     },
   ]
 
@@ -90,7 +92,7 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
     - Deletes the actor if the given id exists. Returns the id of the deleted actor and success value. 
 - Permitted roles: Executive Producer, Casting Director
 
-- `curl -X DELETE https://render-deployment-example-mtst.onrender.com/actors/4 -H "Accept: application/json" -H "Authorization: Bearer {token}"`
+- `curl -X DELETE https://render-deployment-example-mtst.onrender.com/actors/4 -H "Authorization: Bearer {token}"`
 
 ``` {
 "success": true,
@@ -103,7 +105,7 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
     - Creates a new actor with provided name, gender, and age. Returns the new actor id, success value, name, gender, and age.
 - Permitted roles: Executive Producer, Casting Director
 
-- `curl https://render-deployment-example-mtst.onrender.com/actors -X POST -H "Accept: application/json" -H "Content-Type: application/json" -d '{"name": "Mike Wallen","gender": "Male","age": 23}' -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/actors -X POST -H "Content-Type: application/json" -d '{"name": "Mike Wallen","gender": "Male","age": 23}' -H "Authorization: Bearer {token}"`
 ```
 {
     "age": 23,
@@ -120,11 +122,11 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
     - Updates an existing actor's details including name, gender, or age.  Any combination of fields can be passed.  Success is returned.
 - Permitted roles: Executive Producer, Casting Director
 
-- `curl https://render-deployment-example-mtst.onrender.com/actors/2 -X PATCH -H "Accept: application/json" -H "Content-Type: application/json" -d '{"name": "Ted Wallen"}' -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/actors/2 -X PATCH -H "Content-Type: application/json" -d '{"name": "Ted Wallen"}' -H "Authorization: Bearer {token}"`
 
-- `curl https://render-deployment-example-mtst.onrender.com/actors/2 -X PATCH -H "Accept: application/json" -H "Content-Type: application/json" -d '{"gender": "Female"}' -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/actors/2 -X PATCH -H "Content-Type: application/json" -d '{"gender": "Female"}' -H "Authorization: Bearer {token}"`
 
-- `curl https://render-deployment-example-mtst.onrender.com/actors/2 -X PATCH -H "Accept: application/json" -H "Content-Type: application/json" -d '{"age": 34}' -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/actors/2 -X PATCH -H "Content-Type: application/json" -d '{"age": 34}' -H "Authorization: Bearer {token}"`
 ```
 {
     "success": true
@@ -135,7 +137,7 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
 - General: Returns the list of movies
 - Permitted roles: Executive Producer, Casting Director, Casting Assistant
 
-- `curl https://render-deployment-example-mtst.onrender.com/movies -H "Accept: application/json" -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/movies -H "Authorization: Bearer {token}"`
 
 ``` {
   "success": true,
@@ -171,7 +173,7 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
     - Deletes the movie if the given id exists. Returns the id of the deleted movie and success value. 
 - Permitted roles: Executive Producer
 
-- `curl -X DELETE https://render-deployment-example-mtst.onrender.com/movies/4 -H "Accept: application/json" -H "Authorization: Bearer {token}"`
+- `curl -X DELETE https://render-deployment-example-mtst.onrender.com/movies/4 -H "Authorization: Bearer {token}"`
 
 ``` {
 "success": true,
@@ -184,7 +186,7 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
     - Creates a new movie with provided title and release date. Returns the new movie id, success value, title, and release date.
 - Permitted roles: Executive Producer
 
-- `curl https://render-deployment-example-mtst.onrender.com/movies -X POST -H "Accept: application/json" -H "Content-Type: application/json" -d '{"title": "Akira","release_date": "1990-03-25"}' -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/movies -X POST -H "Content-Type: application/json" -d '{"title": "Akira","release_date": "1990-03-25"}' -H "Authorization: Bearer {token}"`
 ```
 {
     "id": 5,
@@ -200,9 +202,9 @@ Authentication for the app is 3rd party managed by Auth0. Because there is no fr
     - Updates an existing movie's details including title and release date.  Any combination of fields can be passed.  Success is returned.
 - Permitted roles: Executive Producer, Casting Director
 
-- `curl https://render-deployment-example-mtst.onrender.com/movies/2 -X PATCH -H "Accept: application/json" -H "Content-Type: application/json" -d '{"title": "Rogue One"}' -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/movies/2 -X PATCH -H "Content-Type: application/json" -d '{"title": "Rogue One"}' -H "Authorization: Bearer {token}"`
 
-- `curl https://render-deployment-example-mtst.onrender.com/movies/2 -X PATCH -H "Accept: application/json" -H "Content-Type: application/json" -d '{"release_date": "1992-03-25"}' -H "Authorization: Bearer {token}"`
+- `curl https://render-deployment-example-mtst.onrender.com/movies/2 -X PATCH -H "Content-Type: application/json" -d '{"release_date": "1992-03-25"}' -H "Authorization: Bearer {token}"`
 
 ```
 {
